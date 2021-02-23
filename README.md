@@ -46,7 +46,6 @@
 | ------------| ---------- | -------------------------------|
 | user        | references | null: false, foreign_key: true |
 | item        | references | null: false, foreign_key: true |
-| buyer_info  | references | null: false, foreign_key: true |
 
 ### Association
 
