@@ -6,7 +6,7 @@
 | Column             | Type   | Options                    |
 | ------------------ | ------ | -------------------------- |
 | nickname           | string | null: false                |
-| email              | string | null: false                |
+| email              | string | null: false, unique:true   |
 | encrypted_password | string | null: false                |
 | last_name          | string | null: false                |
 | first_name         | string | null: false                |
@@ -17,7 +17,7 @@
 ### Association
 
 - has_many :itmes
-- has_one :buy
+- has_many :buys
 
 
 ## itemsテーブル
@@ -29,7 +29,7 @@
 | category_id        | integer    | null: false, (active_hash)     |
 | condition_id       | integer    | null: false, (active_hash)     |
 | shopping_charge_id | integer    | null: false, (active_hash)     |
-| shopping_area_id   | integer    | null: false, (active_hash)     |
+| prefectures_id     | integer    | null: false, (active_hash)     |
 | day_to_ship_id     | integer    | null: false, (active_hash)     |
 | price              | integer    | null: false                    |
 | user               | references | null: false, foreign_key: true |
@@ -59,7 +59,7 @@
 | Column         | Type       | Options                        |
 | ---------------| ---------- | ------------------------------ |
 | postal_code    | string     | null: false                    |
-| prefectures_id | integer    | null: false                    |
+| prefectures_id | integer    | null: false, (active_hash)     |
 | municipality   | string     | null: false                    |
 | address        | string     | null: false                    |
 | building_name  | string     |                                |
