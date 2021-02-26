@@ -3,11 +3,12 @@ class Item < ApplicationRecord
   with_options presence: true do
     validates :name
     validates :text
-    validates :price, numericality: { only_integer: true, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: "Half-width number"}
+    validates :price, numericality: { only_integer: true, message: " Out of setting range"}
+    validates :price, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999, message: " Half-width number"}
     validates :user
   end
 
-  with_options dnumericality: { other_than: 1 } do
+  with_options numericality: { other_than: 1, message: "Select"} do
     validates :category_id
     validates :condition_id
     validates :shopping_charge_id
