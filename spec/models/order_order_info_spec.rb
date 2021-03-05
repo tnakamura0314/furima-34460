@@ -64,6 +64,11 @@ RSpec.describe OrderOrderInfo, type: :model do
         @order_order_info.valid?
         expect(@order_order_info.errors.full_messages).to include("Phone number Input only number")
       end
+      it "tokenが空では保存できないこと" do
+        @order_order_info.token = nil
+        @order_order_info.valid?
+        expect(@order_order_info.errors.full_messages).to include("Token can't be blank")
+      end
     end
   end
 end
