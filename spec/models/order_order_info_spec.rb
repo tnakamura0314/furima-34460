@@ -16,14 +16,6 @@ RSpec.describe OrderOrderInfo, type: :model do
         @order_order_info.building_name = ''
         expect(@order_order_info).to be_valid
       end
-      it 'user_idがあれば保存できること' do
-        @order_order_info.user_id = @user.id
-        expect(@order_order_info).to be_valid
-      end
-      it 'item_idがあれば保存できること' do
-        @order_order_info.item_id = @item.id
-        expect(@order_order_info).to be_valid
-      end
     end
 
     context '購入が保存できないとき' do
@@ -86,6 +78,16 @@ RSpec.describe OrderOrderInfo, type: :model do
         @order_order_info.token = nil
         @order_order_info.valid?
         expect(@order_order_info.errors.full_messages).to include("Token can't be blank")
+      end
+      it 'user_idが空だと保存できない' do
+        @order_order_info.user_id = nil
+        @order_order_info.valid?
+        expect(@order_order_info.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空だと保存できない' do
+        @order_order_info.item_id = nil
+        @order_order_info.valid?
+        expect(@order_order_info.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
