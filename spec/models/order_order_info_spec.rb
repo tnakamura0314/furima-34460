@@ -3,12 +3,25 @@ require 'rails_helper'
 RSpec.describe OrderOrderInfo, type: :model do
   describe '購入の保存' do
     before do
-      user = FactoryBot.create(:user)
-      @order_order_info = FactoryBot.build(:order_order_info, user_id: user.id)
+      @user = FactoryBot.create(:user)
+      @item = FactoryBot.create(:user)
+      @order_order_info = FactoryBot.build(:order_order_info, user_id: @user.id, item_id: @item.id)
     end
 
     context '購入が保存できるとき' do
       it 'すべての値が正しく入力されていれば保存できること' do
+        expect(@order_order_info).to be_valid
+      end
+      it 'building_nameは空でも保存できること' do
+        @order_order_info.building_name = ''
+        expect(@order_order_info).to be_valid
+      end
+      it 'user_idがあれば保存できること' do
+        @order_order_info.user_id = @user.id
+        expect(@order_order_info).to be_valid
+      end
+      it 'item_idがあれば保存できること' do
+        @order_order_info.item_id = @item.id
         expect(@order_order_info).to be_valid
       end
     end
@@ -61,6 +74,11 @@ RSpec.describe OrderOrderInfo, type: :model do
       end
       it 'phone_numberはハイフンがあると保存できない（09012345678となる）' do
         @order_order_info.phone_number = '090-123-567'
+        @order_order_info.valid?
+        expect(@order_order_info.errors.full_messages).to include("Phone number Input only number")
+      end
+      it 'phone_numberは英数字混合では保存できない（09012345678となる）' do
+        @order_order_info.phone_number = '090aaaa1111'
         @order_order_info.valid?
         expect(@order_order_info.errors.full_messages).to include("Phone number Input only number")
       end

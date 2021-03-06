@@ -1,15 +1,14 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :set_item, only: [:index, :create]
-  before_action :sold_out_item, only: [:index]
+  before_action :sold_out_item, only: [:index, :create]
+  before_action :same_user_item, only: [:index, :create]
 
   def index
-    redirect_to root_path  if @item.user_id == current_user.id
     @order_order_info = OrderOrderInfo.new
   end
 
   def create
-    redirect_to root_path  if @item.user_id == current_user.id
     @order_order_info = OrderOrderInfo.new(order_params)
     if @order_order_info.valid?
       pay_order
@@ -41,5 +40,9 @@ class OrdersController < ApplicationController
 
     def sold_out_item
       redirect_to root_path if @item.order.present?
+    end
+
+    def same_user_item
+      redirect_to root_path  if @item.user_id == current_user.id
     end
 end
