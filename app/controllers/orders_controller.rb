@@ -1,13 +1,16 @@
 class OrdersController < ApplicationController
-  
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :set_item, only: [:index, :create]
+  before_action :sold_out_item, only: [:index]
+
   def index
-    @item = Item.find(params[:item_id])
+    redirect_to root_path  if @item.user_id == current_user.id
     @order_order_info = OrderOrderInfo.new
   end
 
   def create
+    redirect_to root_path  if @item.user_id == current_user.id
     @order_order_info = OrderOrderInfo.new(order_params)
-    @item = Item.find(params[:item_id])
     if @order_order_info.valid?
       pay_order
       @order_order_info.save
@@ -30,5 +33,13 @@ class OrdersController < ApplicationController
         card: order_params[:token],
         currency: 'jpy'
       )
+    end
+
+    def set_item
+      @item = Item.find(params[:item_id])
+    end
+
+    def sold_out_item
+      redirect_to root_path if @item.order.present?
     end
 end
